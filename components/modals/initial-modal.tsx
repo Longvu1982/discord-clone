@@ -1,6 +1,8 @@
 "use client";
 import { useIsMounted } from "@/hooks/mount";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import ServerImageUploader from "../custom/server-image-uploader";
@@ -22,6 +24,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import useModalStore from "@/hooks/store/use-modal-store";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -32,7 +35,9 @@ const formSchema = z.object({
   }),
 });
 
-const InitialModal = () => {
+const InitialModal = ({ isOpen }: { isOpen?: boolean }) => {
+  const open = useModalStore((state) => state.isOpen);
+  const closeModal = useModalStore((state) => state.closeModal);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,19 +46,26 @@ const InitialModal = () => {
     },
   });
 
-  const isLoading = form.formState.isLoading;
+  const isLoading = form.formState.isSubmitting;
+
+  console.log(isLoading);
+
+  const router = useRouter();
 
   const isMounted = useIsMounted();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    await axios.post("/api/server/create", values);
+    router.refresh();
+    form.reset();
+    closeModal();
   };
 
   if (!isMounted) return null;
 
   return (
     <div>
-      <Dialog open>
+      <Dialog open={isOpen ?? open} onOpenChange={closeModal}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">
