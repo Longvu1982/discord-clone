@@ -1,5 +1,5 @@
 import { MemberRole } from "@prisma/client";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 interface AuthorityWrapperProps {
   children: ReactNode;

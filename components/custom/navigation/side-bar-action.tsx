@@ -1,8 +1,7 @@
 "use client";
-import { Plus } from "lucide-react";
-import React from "react";
-import CustomTooltip from "../tooltip/custom-tooltip";
 import useModalStore from "@/hooks/store/use-modal-store";
+import { Plus } from "lucide-react";
+import CustomTooltip from "../tooltip/custom-tooltip";
 
 const SideBarAction = () => {
   const openPanel = useModalStore((state) => state.openModal);

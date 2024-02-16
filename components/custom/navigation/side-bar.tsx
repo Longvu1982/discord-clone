@@ -1,14 +1,11 @@
+import { ModeToggle } from "@/components/mode-toggle";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/db";
 import initProfile from "@/lib/initial-profile";
-import { redirect } from "next/navigation";
-import React from "react";
-import SideBarAction from "./side-bar-action";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Image from "next/image";
-import SideBarNavigation from "./side-bar-navigation";
-import { ModeToggle } from "@/components/mode-toggle";
 import { UserButton } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import SideBarAction from "./side-bar-action";
+import SideBarNavigation from "./side-bar-navigation";
 
 const SideBar = async () => {
   const profile = await initProfile();
