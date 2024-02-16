@@ -1,6 +1,5 @@
 import React from "react";
 import ServerSideBar from "./component/server-side-bar";
-import { db } from "@/lib/db";
 
 const ServerLayout = async ({
   children,
@@ -9,15 +8,10 @@ const ServerLayout = async ({
   children: React.ReactNode;
   params: { serverId: string };
 }) => {
-  const currentServer = await db.chatServer.findUnique({
-    where: {
-      id: params?.serverId,
-    },
-  });
   return (
     <div className="h-screen flex">
-      <div className="hidden md:flex h-full w-60 z-20 flex-col">
-        <ServerSideBar currentServer={currentServer} />
+      <div className="hidden md:flex h-full w-60 z-20 flex-col dark:bg-[#2b2d31] bg-[#f2f3f5]">
+        <ServerSideBar serverId={params?.serverId} />
       </div>
       <div className="bg-red-400 h-full flex-1">{children}</div>
     </div>

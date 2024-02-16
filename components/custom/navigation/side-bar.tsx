@@ -7,6 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 import SideBarNavigation from "./side-bar-navigation";
+import { ModeToggle } from "@/components/mode-toggle";
+import { UserButton } from "@clerk/nextjs";
 
 const SideBar = async () => {
   const profile = await initProfile();
@@ -27,6 +29,8 @@ const SideBar = async () => {
       <SideBarAction />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 mx-auto w-10" />
       <SideBarNavigation servers={servers ?? []} />
+      <ModeToggle />
+      <UserButton afterSignOutUrl="/" />
     </div>
   );
 };

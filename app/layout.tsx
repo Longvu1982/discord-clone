@@ -1,10 +1,11 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
-import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import ModalProviders from "@/components/modals/model-providers";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
-import InitialModal from "@/components/modals/initial-modal";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
+import type { Metadata } from "next";
+import { Open_Sans } from "next/font/google";
+import "./globals.css";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={{ baseTheme: dark }}>
       <html lang="en" suppressHydrationWarning>
         <body className={cn(openSans.className, "bg-white dark:bg-[#313338]")}>
           <ThemeProvider
@@ -28,7 +29,7 @@ export default function RootLayout({
             enableSystem
             storageKey="theme"
           >
-            <InitialModal />
+            <ModalProviders />
             {children}
           </ThemeProvider>
         </body>

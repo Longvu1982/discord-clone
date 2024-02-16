@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
   const profile = await initProfile();
+  if (!profile) return redirect("/");
 
   const server = await db.chatServer.findFirst({
     where: {

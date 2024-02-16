@@ -1,35 +1,88 @@
 "use client";
 
+import AuthorityWrapper from "@/components/custom/authority-wrapper/authority-wrapper";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChatServer } from "@prisma/client";
-import { ChevronDown } from "lucide-react";
-import React, { FC } from "react";
+import useModalStore from "@/hooks/store/use-modal-store";
+import { cn } from "@/lib/utils";
+import { ChatServer, MemberRole } from "@prisma/client";
+import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
+import { ChevronDown, PlusCircle, Trash, UserPlus, Users } from "lucide-react";
+import { FC } from "react";
 
 interface ServerSideHeaderProps {
-  server: ChatServer | null;
+  server: ChatServer;
+  role?: MemberRole;
 }
 
-export const ServerSideHeader: FC<ServerSideHeaderProps> = ({ server }) => {
+export const ServerSideHeader: FC<ServerSideHeaderProps> = ({
+  server,
+  role,
+}) => {
+  const openPanel = useModalStore((state) => state.openModal);
+
+  const buttonsList = [
+    {
+      text: "Invite people",
+      color: "text-indigo-600 dark:text-indigo-400",
+      icon: UserPlus,
+      roles: [],
+      onClick: () => {
+        openPanel("invite people", server);
+        console.log("here");
+      },
+    },
+    {
+      text: "Server Settings",
+      icon: GearIcon,
+      roles: [MemberRole.ADMIN],
+    },
+    {
+      text: "Manage Members",
+      icon: Users,
+      roles: [MemberRole.ADMIN, MemberRole.MODERATOR],
+    },
+    {
+      text: "Create Channels",
+      icon: PlusCircle,
+      roles: [],
+    },
+    {
+      text: "Leave Group",
+      color: "text-rose-600 dark:text-rose-400",
+      icon: ExitIcon,
+      roles: [MemberRole.GUEST, MemberRole.MODERATOR],
+    },
+    {
+      text: "Delete Server",
+      color: "text-rose-600 dark:text-rose-400",
+      icon: Trash,
+      roles: [MemberRole.ADMIN],
+    },
+  ];
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex justify-between w-full">
+      <DropdownMenuTrigger className="flex bg-transparent justify-between w-full p-3">
         <p>{server?.name}</p>
         <ChevronDown />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+      <DropdownMenuContent className="w-56 [&>*]:cursor-pointer">
+        {buttonsList.map(({ text, color, icon: Icon, roles, onClick }) => (
+          <AuthorityWrapper role={role} key={text} acceptedRoles={roles}>
+            <DropdownMenuItem
+              onClick={onClick}
+              className={cn("flex items-center justify-between", color)}
+            >
+              {text}
+              <Icon className="h-4 w-4" />
+            </DropdownMenuItem>
+          </AuthorityWrapper>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
