@@ -43,13 +43,13 @@ const InvitePeople = () => {
     const { data: res } = await axios.patch(
       `/api/server/${data.id}/invite-code`
     );
-    openModal("invite people", res);
+    openModal("invite-people", res);
     closeLoading();
   };
 
   return (
     <div>
-      <Dialog open={open && type === "invite people"} onOpenChange={closeModal}>
+      <Dialog open={open && type === "invite-people"} onOpenChange={closeModal}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">

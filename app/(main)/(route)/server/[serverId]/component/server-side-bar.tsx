@@ -52,7 +52,7 @@ const ServerSideBar: FC<ServerSideBarProps> = async ({ serverId }) => {
   if (!currentServer) return null;
 
   return (
-    <div className="">
+    <div>
       <ServerSideHeader server={currentServer} role={role} />
     </div>
   );

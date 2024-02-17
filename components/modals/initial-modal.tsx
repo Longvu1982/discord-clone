@@ -24,6 +24,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { useRouter } from "@/hooks/use-p-router";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -37,12 +38,13 @@ const formSchema = z.object({
 const InitialModal = ({ isOpen }: { isOpen?: boolean }) => {
   const open = useModalStore((state) => state.isOpen);
   const type = useModalStore((state) => state.type);
+  const currentServer = useModalStore((state) => state.data);
   const closeModal = useModalStore((state) => state.closeModal);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      imageUrl: "",
+      name: currentServer.name ?? "",
+      imageUrl: currentServer.imageUrl ?? "",
     },
   });
 
@@ -51,25 +53,43 @@ const InitialModal = ({ isOpen }: { isOpen?: boolean }) => {
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    await axios.post("/api/server/create", values);
+    type === "create-server" &&
+      (await axios.post("/api/server/create", values));
+    type === "edit-server" &&
+      (await axios.patch("/api/server/edit", {
+        ...values,
+        id: currentServer.id,
+      }));
     router.refresh();
     form.reset();
     closeModal();
   };
 
-  console.log(type);
-  console.log(open);
+  useEffect(() => {
+    if (open) {
+      form.reset({
+        ...currentServer,
+        name: currentServer.name ?? "",
+        imageUrl: currentServer.imageUrl ?? "",
+      });
+    }
+  }, [currentServer.name, currentServer.imageUrl, open]);
 
   return (
     <div>
       <Dialog
-        open={isOpen ?? (open && type === "create server")}
+        open={
+          isOpen ??
+          (open && (type === "create-server" || type === "edit-server"))
+        }
         onOpenChange={closeModal}
       >
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-2xl text-center font-bold">
-              Create a server
+              {type === "create-server"
+                ? "Create a server"
+                : "Edit your server"}
             </DialogTitle>
             <DialogDescription className="text-center text-zinc-500">
               Give your server identification by adding a name and an image. You
@@ -120,7 +140,7 @@ const InitialModal = ({ isOpen }: { isOpen?: boolean }) => {
               </div>
               <DialogFooter className="bg-gray-100 px-6 py-4">
                 <Button variant="primary" disabled={isLoading}>
-                  Create
+                  {type === "create-server" ? "Create" : "Save changes"}
                 </Button>
               </DialogFooter>
             </form>

@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import initProfile from "@/lib/initial-profile";
+import { MemberRole } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 } from "uuid";
 
@@ -16,7 +17,27 @@ export const PATCH = async (
     }
 
     const server = await db.chatServer.update({
-      where: { id: params.serverId, profileId: profile.id },
+      where: {
+        id: params.serverId,
+        members: {
+          some: {
+            AND: [
+              {
+                OR: [
+                  {
+                    profileId: profile.id,
+                    role: MemberRole.ADMIN,
+                  },
+                  {
+                    profileId: profile.id,
+                    role: MemberRole.MODERATOR,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
       data: {
         inviteCode: v4(),
       },

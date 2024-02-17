@@ -1,12 +1,12 @@
 "use client";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
 import { ChatServer } from "@prisma/client";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { FC } from "react";
 import CustomTooltip from "../tooltip/custom-tooltip";
 import { useRouter } from "@/hooks/use-p-router";
+import { cn } from "@/lib/utils";
 
 interface SideBarNavigationProps {
   servers: ChatServer[];

@@ -32,19 +32,24 @@ export const ServerSideHeader: FC<ServerSideHeaderProps> = ({
       icon: UserPlus,
       roles: [],
       onClick: () => {
-        openPanel("invite people", server);
-        console.log("here");
+        openPanel("invite-people", server);
       },
     },
     {
       text: "Server Settings",
       icon: GearIcon,
       roles: [MemberRole.ADMIN],
+      onClick: () => {
+        openPanel("edit-server", server);
+      },
     },
     {
       text: "Manage Members",
       icon: Users,
       roles: [MemberRole.ADMIN, MemberRole.MODERATOR],
+      onClick: () => {
+        openPanel("manage-members", server);
+      },
     },
     {
       text: "Create Channels",
