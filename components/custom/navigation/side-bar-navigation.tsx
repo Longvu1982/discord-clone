@@ -3,9 +3,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { ChatServer } from "@prisma/client";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { FC } from "react";
 import CustomTooltip from "../tooltip/custom-tooltip";
+import { useRouter } from "@/hooks/use-p-router";
 
 interface SideBarNavigationProps {
   servers: ChatServer[];
@@ -22,7 +23,11 @@ const SideBarNavigation: FC<SideBarNavigationProps> = ({ servers }) => {
           <button
             key={item.id}
             className="w-full h-[48px] group flex justify-center relative mb-4"
-            onClick={() => router.push(`/server/${item.id}`)}
+            onClick={
+              serverId === item.id
+                ? undefined
+                : () => router.push(`/server/${item.id}`)
+            }
           >
             <div
               className={cn(
@@ -30,7 +35,7 @@ const SideBarNavigation: FC<SideBarNavigationProps> = ({ servers }) => {
                 serverId === item.id && "rounded-[16px]"
               )}
             >
-              <Image fill alt="server-name" src={item.imageUrl} />
+              <Image fill alt="server-name" sizes="100px" src={item.imageUrl} />
             </div>
             <div
               className={cn(

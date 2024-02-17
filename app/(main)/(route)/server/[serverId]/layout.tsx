@@ -10,10 +10,10 @@ const ServerLayout = async ({
 }) => {
   return (
     <div className="h-screen flex">
-      <div className="hidden md:flex h-full w-60 z-20 flex-col dark:bg-[#2b2d31] bg-[#f2f3f5]">
+      <div className="hidden md:flex h-full w-60 flex-col dark:bg-[#2b2d31] bg-[#f2f3f5]">
         <ServerSideBar serverId={params?.serverId} />
       </div>
-      <div className="bg-red-400 h-full flex-1">{children}</div>
+      <div className="h-full flex-1 p-3">{children}</div>
     </div>
   );
 };

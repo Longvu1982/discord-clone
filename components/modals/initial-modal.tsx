@@ -2,7 +2,6 @@
 import useModalStore from "@/hooks/store/use-modal-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import ServerImageUploader from "../custom/server-image-uploader";
@@ -24,6 +23,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { useRouter } from "@/hooks/use-p-router";
 
 const formSchema = z.object({
   name: z.string().min(1, {
