@@ -1,8 +1,5 @@
 import useModalStore from "@/hooks/store/use-modal-store";
 import { useUser } from "@clerk/nextjs";
-import { MoreVertical, ShieldCheck, ShieldPlus } from "lucide-react";
-import UserAvatar from "../custom/user-avatar/UserAvatar";
-import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,8 +8,7 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { ScrollArea } from "../ui/scroll-area";
-import { MemberRole } from "@prisma/client";
-import { renderBadge } from "@/lib/utils";
+import MemberRow from "./components/member-row";
 
 const ManageMembers = () => {
   const { user } = useUser();
@@ -43,7 +39,7 @@ const ManageMembers = () => {
             </DialogTitle>
             <DialogDescription className="text-center text-zinc-500">
               Delete members from the group or change their roles as Moderator.
-              <p className="text-indigo-400 font-semibold mt-1">
+              <p className="text-indigo-600 font-semibold mt-1">
                 {members.length} Members
               </p>
             </DialogDescription>
@@ -51,28 +47,7 @@ const ManageMembers = () => {
           <div className="space-y-8 px-6">
             <ScrollArea className="max-h-[420px] py-4">
               {members.map((member) => (
-                <div key={member.id} className="flex items-center gap-2 mb-4">
-                  <UserAvatar src={member.profile?.imageUrl} />
-                  <div className="flex flex-col text-sm">
-                    <div className="flex items-center">
-                      <span className="text-zinc-800 font-semibold">
-                        {member.profile?.name}
-                      </span>
-                      {user?.id === member.profile?.userId && (
-                        <span className="ml-2 text-green-700 text-xs font-semibold">
-                          Current
-                        </span>
-                      )}
-                      {renderBadge(member.role)}
-                    </div>
-                    <span className="text-zinc-400 text-sm">
-                      {member.profile?.email}
-                    </span>
-                  </div>
-                  <Button autoFocus={false} className="ml-auto" variant="link">
-                    <MoreVertical className="ml-auto text-zinc-500 h-5" />
-                  </Button>
-                </div>
+                <MemberRow key={member.id} member={member} />
               ))}
             </ScrollArea>
           </div>

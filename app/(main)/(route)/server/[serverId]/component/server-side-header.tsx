@@ -30,7 +30,7 @@ export const ServerSideHeader: FC<ServerSideHeaderProps> = ({
       text: "Invite people",
       color: "text-indigo-600 dark:text-indigo-400",
       icon: UserPlus,
-      roles: [],
+      roles: [MemberRole.ADMIN, MemberRole.MODERATOR],
       onClick: () => {
         openPanel("invite-people", server);
       },

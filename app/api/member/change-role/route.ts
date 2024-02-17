@@ -5,24 +5,24 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const PATCH = async (req: NextRequest) => {
   try {
-    const { name, imageUrl, id } = await req.json();
+    const { serverId, id, role } = await req.json();
     const profile = await initProfile();
     if (!profile) return new NextResponse("Unauthorize", { status: 401 });
-    if (!id) return new NextResponse("Missing ServerID", { status: 400 });
+    if (!id) return new NextResponse("Missing MemberID", { status: 400 });
 
-    const server = await db.chatServer.update({
+    const newMember = await db.member.update({
       where: {
         id,
+        serverId,
       },
       data: {
-        name,
-        imageUrl,
+        role,
       },
     });
 
-    return NextResponse.json(server);
+    return NextResponse.json(newMember);
   } catch (e) {
-    console.log("[SERVER_POST]", error);
+    console.log("[SERVER_PATCH]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 };

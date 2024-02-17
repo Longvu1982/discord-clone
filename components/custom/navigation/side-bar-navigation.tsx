@@ -26,7 +26,10 @@ const SideBarNavigation: FC<SideBarNavigationProps> = ({ servers }) => {
             onClick={
               serverId === item.id
                 ? undefined
-                : () => router.push(`/server/${item.id}`)
+                : () => {
+                    router.push(`/server/${item.id}`);
+                    // router.refresh();
+                  }
             }
           >
             <div
