@@ -4,6 +4,7 @@ import InitialModal from "./initial-modal";
 import { useIsMounted } from "@/hooks/mount";
 import InvitePeople from "./invite-people";
 import ManageMembers from "./manage-members";
+import CreateChannel from "./create-channel";
 
 const ModalProviders = () => {
   const isMounted = useIsMounted();
@@ -15,6 +16,7 @@ const ModalProviders = () => {
       <InitialModal />
       <InvitePeople />
       <ManageMembers />
+      <CreateChannel />
     </>
   );
 };

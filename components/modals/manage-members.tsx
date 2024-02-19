@@ -20,9 +20,6 @@ const ManageMembers = () => {
 
   const members = data.members ?? [];
 
-  console.log(members);
-
-  console.log(user?.id);
   return (
     <div>
       <Dialog

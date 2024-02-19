@@ -1,10 +1,19 @@
-import { ChannelType, ChatServer, MemberRole } from "@prisma/client";
-import { redirect, useParams } from "next/navigation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { db } from "@/lib/db";
+import initProfile from "@/lib/initial-profile";
+import { ChannelType } from "@prisma/client";
+import { Hash } from "lucide-react";
+import { redirect } from "next/navigation";
 import { FC } from "react";
 import { ServerSideHeader } from "./server-side-header";
-import initProfile from "@/lib/initial-profile";
-import { db } from "@/lib/db";
-import { channel } from "diagnostics_channel";
+import { useRouter } from "@/hooks/use-p-router";
+import ChannelSection from "./channel-sections";
+import MemberSection from "./member-section";
 
 interface ServerSideBarProps {
   serverId?: string;
@@ -49,11 +58,38 @@ const ServerSideBar: FC<ServerSideBarProps> = async ({ serverId }) => {
     (channel) => channel.type === ChannelType.VIDEO
   );
 
+  console.log(textChannels);
+
   if (!currentServer) return null;
 
   return (
     <div>
-      <ServerSideHeader server={currentServer} role={role} />
+      <div className="mb-4">
+        <ServerSideHeader server={currentServer} role={role} />
+      </div>
+
+      <ChannelSection
+        channels={textChannels ?? []}
+        name="Text channel"
+        serverId={serverId ?? ""}
+      />
+
+      <ChannelSection
+        channels={audioChannels ?? []}
+        name="Audio channel"
+        serverId={serverId ?? ""}
+      />
+
+      <ChannelSection
+        channels={videoChannels ?? []}
+        name="Video channel"
+        serverId={serverId ?? ""}
+      />
+
+      <MemberSection
+        serverId={serverId ?? ""}
+        members={currentServer.members ?? []}
+      />
     </div>
   );
 };

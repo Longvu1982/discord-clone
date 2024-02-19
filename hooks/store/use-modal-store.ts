@@ -9,7 +9,8 @@ type ModalType =
   | "create-server"
   | "edit-server"
   | "invite-people"
-  | "manage-members";
+  | "manage-members"
+  | "create-channel";
 interface ModalStoreType {
   isOpen: boolean;
   type: ModalType;

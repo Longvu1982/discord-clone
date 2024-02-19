@@ -55,6 +55,9 @@ export const ServerSideHeader: FC<ServerSideHeaderProps> = ({
       text: "Create Channels",
       icon: PlusCircle,
       roles: [],
+      onClick: () => {
+        openPanel("create-channel", server);
+      },
     },
     {
       text: "Leave Group",
