@@ -38,7 +38,13 @@ const SideBarNavigation: FC<SideBarNavigationProps> = ({ servers }) => {
                 serverId === item.id && "rounded-[16px]"
               )}
             >
-              <Image fill alt="server-name" sizes="100px" src={item.imageUrl} />
+              <Image
+                fill
+                objectFit="cover"
+                alt="server-name"
+                sizes="100px"
+                src={item.imageUrl}
+              />
             </div>
             <div
               className={cn(

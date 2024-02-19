@@ -16,7 +16,13 @@ const ServerImageUploader: FC<ServerImageUploaderProps> = ({
   const [key, setKey] = useState("");
   return value ? (
     <div className="relative h-20 w-20 mx-auto">
-      <Image fill src={value} alt="" className="rounded-full" />
+      <Image
+        fill
+        objectFit="cover"
+        src={value}
+        alt=""
+        className="rounded-full"
+      />
       <X
         className="absolute top-0 right-0 text-white bg-red-400 text-xs rounded-full p-1"
         size={20}

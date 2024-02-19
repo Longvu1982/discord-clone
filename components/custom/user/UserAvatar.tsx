@@ -10,8 +10,14 @@ interface UserAvatarProps {
 
 const UserAvatar: FC<UserAvatarProps> = ({ src, className }) => {
   return (
-    <Avatar className={cn("w-7 h-7", className)}>
-      <Image alt="member-avatar" src={src ?? ""} fill sizes="100px" />
+    <Avatar className={cn("w-8 h-8", className)}>
+      <Image
+        objectFit="cover"
+        alt="member-avatar"
+        src={src ?? ""}
+        fill
+        sizes="100px"
+      />
     </Avatar>
   );
 };
