@@ -25,6 +25,7 @@ import {
 import { Input } from "../ui/input";
 import { useRouter } from "@/hooks/use-p-router";
 import { useEffect } from "react";
+import { useIsMounted } from "@/hooks/mount";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -39,6 +40,7 @@ const InitialModal = ({ isOpen }: { isOpen?: boolean }) => {
   const open = useModalStore((state) => state.isOpen);
   const type = useModalStore((state) => state.type);
   const currentServer = useModalStore((state) => state.data);
+  const isMounted = useIsMounted();
   const closeModal = useModalStore((state) => state.closeModal);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -74,6 +76,8 @@ const InitialModal = ({ isOpen }: { isOpen?: boolean }) => {
       });
     }
   }, [currentServer.name, currentServer.imageUrl, open]);
+
+  if (!isMounted) return null;
 
   return (
     <div>

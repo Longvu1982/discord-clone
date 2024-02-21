@@ -8,7 +8,7 @@ import { Open_Sans } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 import { SocketProvider } from "@/components/providers/socket-providers";
-import QueryProvider from "@/components/providers/query-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
