@@ -7,6 +7,8 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
+import { SocketProvider } from "@/components/providers/socket-providers";
+import QueryProvider from "@/components/providers/query-provider";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -31,8 +33,10 @@ export default function RootLayout({
             enableSystem
             storageKey="theme"
           >
-            <ModalProviders />
-            {children}
+            <SocketProvider>
+              <ModalProviders />
+              <QueryProvider>{children}</QueryProvider>
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>

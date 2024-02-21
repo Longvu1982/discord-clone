@@ -1,5 +1,4 @@
 import useModalStore from "@/hooks/store/use-modal-store";
-import { useUser } from "@clerk/nextjs";
 import {
   Dialog,
   DialogContent,
@@ -11,12 +10,10 @@ import { ScrollArea } from "../ui/scroll-area";
 import MemberRow from "./components/member-row";
 
 const ManageMembers = () => {
-  const { user } = useUser();
   const open = useModalStore((state) => state.isOpen);
   const type = useModalStore((state) => state.type);
   const data = useModalStore((state) => state.data);
   const closeModal = useModalStore((state) => state.closeModal);
-  const openModal = useModalStore((state) => state.openModal);
 
   const members = data.members ?? [];
 

@@ -12,7 +12,7 @@ const UserAvatar: FC<UserAvatarProps> = ({ src, className }) => {
   return (
     <Avatar className={cn("w-8 h-8", className)}>
       <Image
-        objectFit="cover"
+        className="object-cover"
         alt="member-avatar"
         src={src ?? ""}
         fill

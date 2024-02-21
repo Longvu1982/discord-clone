@@ -13,7 +13,7 @@ interface SideBarNavigationProps {
 }
 
 const SideBarNavigation: FC<SideBarNavigationProps> = ({ servers }) => {
-  const { serverId } = useParams<{ serverId: string }>();
+  const { serverId } = useParams() as { serverId: string };
   const router = useRouter();
 
   return (
@@ -40,8 +40,8 @@ const SideBarNavigation: FC<SideBarNavigationProps> = ({ servers }) => {
             >
               <Image
                 fill
-                objectFit="cover"
                 alt="server-name"
+                className="object-cover"
                 sizes="100px"
                 src={item.imageUrl}
               />

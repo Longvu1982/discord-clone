@@ -1,5 +1,5 @@
 import React from "react";
-import ServerSideBar from "./component/server-side-bar";
+import ServerSideBar from "./_component/server-side-bar";
 
 const ServerLayout = async ({
   children,
@@ -13,7 +13,7 @@ const ServerLayout = async ({
       <div className="hidden md:flex h-full w-60 flex-col dark:bg-[#2b2d31] bg-[#f2f3f5]">
         <ServerSideBar serverId={params?.serverId} />
       </div>
-      <div className="h-full flex-1 p-3">{children}</div>
+      <div className="h-full flex-1">{children}</div>
     </div>
   );
 };

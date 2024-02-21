@@ -22,7 +22,7 @@ const SideBar = async () => {
   });
 
   return (
-    <div className="hidden md:flex w-[72px] h-screen dark:bg-[#1e1f22] items-center flex-col py-4 gap-4">
+    <div className="flex w-[72px] h-full bg-zinc-200 dark:bg-[#1e1f22] items-center flex-col py-4 gap-4">
       <SideBarAction />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 mx-auto w-10" />
       <SideBarNavigation servers={servers ?? []} />

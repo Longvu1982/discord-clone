@@ -5,7 +5,6 @@ import { MemberRole } from "@prisma/client";
 
 const UserBadge = ({ role }: { role: MemberRole | undefined }) => {
   if (!role) return null;
-  console.log(role);
   return (
     <CustomTooltip content={role} side="top">
       {BadgeMap[role] as ReactNode}

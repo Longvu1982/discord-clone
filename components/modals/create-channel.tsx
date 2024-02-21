@@ -66,7 +66,6 @@ const CreateChannel = () => {
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     await axios.patch("/api/server/create-channel", {
       ...values,
       id: server.id,

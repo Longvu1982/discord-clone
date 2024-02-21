@@ -38,18 +38,18 @@ const ChannelSection: FC<ChannelSectionProps> = ({
         return <Hash className="text-zinc-400 w-4 h-4" />;
     }
   };
-  console.log(channels);
 
   useEffect(() => {
     if (
       name === "Text channel" &&
       channels.length > 0 &&
-      isTriggerSelectFirst
+      isTriggerSelectFirst &&
+      !params?.profileId
     ) {
       router.push(`/server/${serverId}/channel/${channels[0].id}`);
       setTriggerSelectFirst(false);
     }
-  }, [channels.length, name, isTriggerSelectFirst]);
+  }, [channels.length, name, isTriggerSelectFirst, params?.profileId]);
 
   return channels.length > 0 ? (
     <Accordion
@@ -68,11 +68,11 @@ const ChannelSection: FC<ChannelSectionProps> = ({
               key={item.name}
               className={cn(
                 "flex items-center gap-1 p-1 py-2 rounded-md cursor-pointer hover:opacity-75",
-                params.channelId === item.id &&
+                params?.channelId === item.id &&
                   "bg-zinc-200 dark:bg-zinc-700 hover:opacity-100"
               )}
               onClick={
-                params.channelId === item.id
+                params?.channelId === item.id
                   ? undefined
                   : () => router.push(`/server/${serverId}/channel/${item.id}`)
               }

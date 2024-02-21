@@ -1,19 +1,11 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { db } from "@/lib/db";
 import initProfile from "@/lib/initial-profile";
 import { ChannelType } from "@prisma/client";
-import { Hash } from "lucide-react";
 import { redirect } from "next/navigation";
 import { FC } from "react";
-import { ServerSideHeader } from "./server-side-header";
-import { useRouter } from "@/hooks/use-p-router";
 import ChannelSection from "./channel-sections";
 import MemberSection from "./member-section";
+import { ServerSideHeader } from "./server-side-header";
 
 interface ServerSideBarProps {
   serverId?: string;
@@ -57,8 +49,6 @@ const ServerSideBar: FC<ServerSideBarProps> = async ({ serverId }) => {
   const videoChannels = currentServer?.channels?.filter(
     (channel) => channel.type === ChannelType.VIDEO
   );
-
-  console.log(textChannels);
 
   if (!currentServer) return null;
 

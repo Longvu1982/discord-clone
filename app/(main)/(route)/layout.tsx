@@ -7,7 +7,9 @@ export default function MainLayout({
 }) {
   return (
     <div className="flex h-screen">
-      <SideBar />
+      <div className="hidden md:block w-[72px] h-screen">
+        <SideBar />
+      </div>
       <main className="flex-1">{children}</main>
     </div>
   );
