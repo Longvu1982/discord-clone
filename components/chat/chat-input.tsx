@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import useModalStore from "@/hooks/store/use-modal-store";
 import EmojiPicker from "../custom/emoji-picker/emoji-picker";
 import { useEffect, useRef } from "react";
+import { useChatContext } from "./chat-section";
 // import { EmojiPicker } from "@/components/emoji-picker";
 
 interface ChatInputProps {
@@ -29,6 +30,7 @@ const formSchema = z.object({
 export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   const { openModal } = useModalStore();
   const ref = useRef<A>();
+  const { scrollRef } = useChatContext();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,6 +49,11 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
         query,
       });
       await axios.post(url, values);
+      scrollRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
       form.reset();
       router.refresh();
     } catch (error) {

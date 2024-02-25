@@ -3,9 +3,12 @@
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { Channel, Member, Message, Profile } from "@prisma/client";
 import { Loader2 } from "lucide-react";
-import React, { FC } from "react";
+import React, { FC, useRef } from "react";
 import UserAvatar from "../custom/user/UserAvatar";
 import { ScrollArea } from "../ui/scroll-area";
+import ChatWelcome from "./chat-welcome";
+import { useChatSocket } from "@/hooks/use-chat-socket";
+import { useChatContext } from "./chat-section";
 
 interface ChatMessagesProps {
   member?: Member & { profile?: Profile };
@@ -28,8 +31,12 @@ const ChatMessages: FC<ChatMessagesProps> = ({
   paramKey,
   paramValue,
   chatId,
+  name,
 }) => {
+  const { scrollRef } = useChatContext();
   const queryKey = `chat:${chatId}`;
+  const addKey = `chat:${chatId}:messages`;
+  const updateKey = `chat:${chatId}:messages:update`;
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({
       queryKey,
@@ -38,18 +45,25 @@ const ChatMessages: FC<ChatMessagesProps> = ({
       paramValue,
     });
 
-  console.log(data);
+  useChatSocket({
+    queryKey,
+    addKey,
+    updateKey,
+  });
+
   if (status === "pending")
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
         <Loader2 className="size-7 text-zinc-500 animate-spin my-4" />
       </div>
     );
-  if (!data) return "no data";
-  const { items } = (data as unknown as DataResponseType)?.pages?.[0] ?? [];
+
+  const { items = [] } = (data as unknown as DataResponseType)?.pages?.[0];
+
   return (
-    <ScrollArea className="flex-1 p-3">
-      <div className="flex flex-col-reverse">
+    <div className="flex-1 overflow-y-auto flex flex-col">
+      <ChatWelcome name={name} />
+      <div className="flex flex-col-reverse justify-start p-3">
         {items.map((chat) => (
           <div key={chat.id} className="mb-4">
             <div className="flex items-start gap-2">
@@ -68,7 +82,11 @@ const ChatMessages: FC<ChatMessagesProps> = ({
           </div>
         ))}
       </div>
-    </ScrollArea>
+      <div
+        className="scroll-mb-20 size-2 shrink-0 pb-20"
+        ref={scrollRef as A}
+      />
+    </div>
   );
 };
 
