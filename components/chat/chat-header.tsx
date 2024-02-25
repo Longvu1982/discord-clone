@@ -14,7 +14,6 @@ interface ChannelHeaderProps {
 }
 
 const ChatHeader: FC<ChannelHeaderProps> = ({
-  channel,
   imageUrl,
   type = "channel",
   name,
@@ -28,9 +27,9 @@ const ChatHeader: FC<ChannelHeaderProps> = ({
         {type === "channel" && <Hash className="h-4 w-4 text-zinc-400" />}
         <span className="text-sm">{name}</span>
       </div>
-      <div className="text-xs ml-auto">
+      {/* <div className="text-xs ml-auto">
         <ChatStatus />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -11,15 +11,12 @@ import { Button } from "../ui/button";
 import ChatItem from "./chat-item";
 import ChatWelcome from "./chat-welcome";
 interface ChatMessagesProps {
-  member?: Member & { profile?: Profile };
   name: string;
-  type: "conversation";
   apiUrl: string;
-  socketUrl: string;
   chatId: string;
-  socketQuery: Record<string, string>;
   paramKey: "channelId" | "conversationId";
   paramValue: string;
+  imageUrl?: string;
 }
 
 interface DataResponseType {
@@ -32,6 +29,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({
   paramValue,
   chatId,
   name,
+  imageUrl,
 }) => {
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
@@ -91,13 +89,16 @@ const ChatMessages: FC<ChatMessagesProps> = ({
 
   return (
     <div ref={chatRef} className="flex-1 overflow-y-auto flex flex-col">
-      {!hasNextPage && <ChatWelcome name={name} />}
+      {!hasNextPage && <ChatWelcome imageUrl={imageUrl} name={name} />}
       {hasNextPage && !isFetchingNextPage && (
         <Button
           className="w-fit mx-auto hover:bg-transparent active:bg-transparent text-xs"
           variant="ghost"
           onClick={async () => {
             await fetchNextPage();
+            if (chatRef.current) {
+              chatRef.current.scrollTop = 20;
+            }
           }}
         >
           Load more messages
@@ -109,7 +110,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({
           <span className="text-zinc-500 text-xs">loading messages...</span>
         </div>
       )}
-      <div className="flex flex-col-reverse justify-start p-3">
+      <div className="flex flex-col-reverse justify-start p-3 px-4">
         {allMessages.map((item) => (
           <ChatItem key={item.id} item={item} />
         ))}

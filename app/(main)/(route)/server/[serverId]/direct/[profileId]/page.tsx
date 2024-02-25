@@ -24,15 +24,6 @@ const Page = async ({
 
   const conversation = await initConversation(currentProfile.id, profile?.id);
 
-  const messages = await db.conversation.findFirst({
-    where: {
-      id: conversation?.id,
-    },
-    include: {
-      directMessages: true,
-    },
-  });
-
   return (
     <div className="h-full flex-1 flex flex-col">
       <ChatHeader
@@ -41,10 +32,17 @@ const Page = async ({
         name={profile?.name ?? ""}
         type="direct"
       />
-      {/* <ChatMessages /> */}
+      <ChatMessages
+        imageUrl={profile?.imageUrl}
+        name={profile?.name ?? ""}
+        apiUrl={"/api/direct-messages"}
+        chatId={conversation?.id ?? ""}
+        paramKey={"conversationId"}
+        paramValue={conversation?.id ?? ""}
+      />
       <ChatInput
-        query={{}}
-        apiUrl=""
+        query={{ conversationId: conversation?.id }}
+        apiUrl="/api/socket/direct-messages"
         type="direct"
         name={profile?.name ?? ""}
       />
