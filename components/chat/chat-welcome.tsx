@@ -7,7 +7,7 @@ interface ChatWelcomeProps {
 
 const ChatWelcome: FC<ChatWelcomeProps> = ({ name }) => {
   return (
-    <div className="flex-1 flex flex-col px-3 mb-6">
+    <div className="flex-1 flex flex-col px-3 mb-6 mt-4">
       <div className="flex-1" />
       <Hash className="size-20 p-2 rounded-full bg-zinc-600 mb-2" />
       <p className="flex items-center text-2xl mb-1">
